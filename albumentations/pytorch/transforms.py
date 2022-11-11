@@ -90,6 +90,9 @@ class ToTensorV2(BasicTransform):
         return {"image": self.apply, "mask": self.apply_to_mask}
 
     def apply(self, img, **params):
+        if img.ndim == 2:
+            img = np.expand_dims(img, axis=-1)
+        
         return torch.from_numpy(img.transpose(2, 0, 1))
 
     def apply_to_mask(self, mask, **params):
